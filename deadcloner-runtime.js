@@ -1,12 +1,4 @@
-/* Dead's Cloner — runtime (vai dentro do zip como deadcloner-runtime.js)
- * Religa a copia ESTATICA sem o JS original:
- *   - SELEÇÃO (cards/opções tipo "um selecionado"): descobre, comparando os
- *     irmãos, qual classe/atributo marca o item ativo e, ao clicar, move essa
- *     marcação pro item clicado (usa o PROPRIO CSS copiado do site).
- *   - abas (role=tab), menus/dropdowns, carrosséis e âncoras suaves.
- * :hover e @keyframes/transition ja vem do CSS copiado — nada a fazer.
- * Tudo defensivo: se algo nao casar, nao quebra nada.
- */
+
 (function () {
   "use strict";
   function pronto(fn) {
@@ -24,7 +16,6 @@
     }
   });
 
-  // ============================================================ SELEÇÃO
   var ATTRS_ESTADO = [
     "aria-selected", "aria-current", "aria-checked", "aria-pressed",
     "data-state", "data-active", "data-selected",
@@ -35,8 +26,6 @@
     for (var i = 0; i < ATTRS_ESTADO.length; i++) sel += (el.getAttribute(ATTRS_ESTADO[i]) || "") + ",";
     return (el.className || "") + "§" + sel + "§" + (el.hasAttribute("hidden") ? "1" : "0");
   }
-
-  // mapa path -> {el, sig} de todos os descendentes (incluindo o proprio root em "")
   function mapaAssin(root) {
     var m = {};
     m[""] = { el: root, sig: assinatura(root) };
@@ -57,8 +46,6 @@
     return o;
   }
 
-  // descobre as "posições de estado": caminhos onde EXATAMENTE 1 irmão difere
-  // (a minoria = item ativo). Retorna null se nao for um grupo single-select.
   function inferirEstado(filhos) {
     var maps = filhos.map(mapaAssin);
     var comuns = Object.keys(maps[0]).filter(function (k) {
@@ -77,7 +64,7 @@
       if (!min) continue;
       var idx = sigs.indexOf(min);
       if (ativoIdx === -1) ativoIdx = idx;
-      if (idx !== ativoIdx) return null; // inconsistente -> nao mexe
+      if (idx !== ativoIdx) return null;
       var baseIdx = idx === 0 ? 1 : 0;
       diffs.push({ path: p, active: snap(maps[idx][p].el), base: snap(maps[baseIdx][p].el) });
     }
@@ -111,7 +98,6 @@
   function wireGrupo(filhos, diffs) {
     filhos.forEach(function (filho) {
       filho.addEventListener("click", function (e) {
-        // copia estatica: nao navega, so move a seleção
         e.preventDefault();
         filhos.forEach(function (f) {
           var on = f === filho;
@@ -120,7 +106,6 @@
           });
         });
       }, false);
-      // mostra que da pra clicar
       try { if (getComputedStyle(filho).cursor === "auto") filho.style.cursor = "pointer"; } catch (e) {}
     });
   }
@@ -150,7 +135,6 @@
     });
   }
 
-  // ============================================================ âncoras
   function ancorasSuaves() {
     try {
       document.addEventListener("click", function (ev) {
@@ -167,7 +151,6 @@
     } catch (e) {}
   }
 
-  // ============================================================ menus/abas
   var CLASSES_ABERTO = ["active", "open", "show", "is-active", "is-open", "expanded", "visible"];
   function toggleClasses(el) {
     var mudou = false;
@@ -242,7 +225,6 @@
     return null;
   }
 
-  // ============================================================ carrosséis
   function ligarCarrosseis() {
     var conts = document.querySelectorAll(
       "[class*='carousel'],[class*='slider'],[class*='swiper'],[class*='slick']," +
