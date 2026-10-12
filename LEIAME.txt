@@ -1,0 +1,38 @@
+Dead's Cloner
+=============
+
+Site clonado: https://recargajogo.com.br/
+Capturado em: 2026-10-12T14:19:56.833Z
+Viewport: 1912x914
+
+VERIFICACAO
+-----------
+Assets baixados : 44 / 44  (100%)
+  imagens : 19
+  svg     : 0
+  fontes  : 25
+  midia   : 0
+  outros  : 0
+CSS total : ~103 KB
+
+COMO VER
+--------
+1) Extraia o .zip numa pasta (NAO rode de dentro do .zip).
+2) De dois cliques em "ligar.bat".
+3) Abre sozinho em http://localhost:7777
+
+Se o navegador nao abrir, acesse http://localhost:7777 manualmente.
+Feche a janela preta pra parar o servidor.
+
+O QUE FOI COPIADO
+-----------------
+- HTML completo (com estado atual de formularios/campos e shadow DOM)
+- CSS completo: animacoes (@keyframes), :hover, @media, @font-face, gradientes,
+  variaveis de tema (inclusive as setadas por JS) e adopted stylesheets
+- A imagem EXATA de cada <img> (resolvida de srcset/picture), SVGs, fontes,
+  video/audio e fundos (background-image, inclusive lazy via data-bg)
+- Canvas renderizado (virou imagem)
+- deadcloner-runtime.js reanima: entradas no scroll, carrosseis, menus/dropdowns e abas
+
+OBS: e uma copia VISUAL. Logica de servidor/API do site original nao e copiada,
+e conteudo que o JS gera SO ao clicar (que nao existe no HTML) pode nao aparecer.
